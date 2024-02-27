@@ -1,0 +1,73 @@
+package templ
+templ rowdata(rollno,fname,lname,branch,year,subject,date string) {
+    <tr>
+        <td class="p-2 border border-gray-800 text-sm"></td>
+        <td class="p-2 border border-gray-800 text-sm"></td>
+        <td class="p-2 border border-gray-800 text-sm"></td>
+        <td class="p-2 border border-gray-800 text-sm"></td>
+        <td class="p-2 border border-gray-800 text-sm"></td>
+        <td class="p-2 border border-gray-800 text-sm"></td>
+        <td class="p-2 border border-gray-800 text-sm"></td>
+
+
+    </tr>
+}
+
+
+templ Hello(){
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Document</title>
+    <link rel="stylesheet" href="./static/build.css"/>
+    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+</head>
+<body>
+    hello
+<div class="min-h-[100vh] flex justify-center items-start">
+
+    <table class="mt-2 grow-0 h-9">
+        <th class="p-4 border border-gray-800 bg-slate-500 text-white">Roll No</th>
+        <th class="p-4 border border-gray-800 bg-slate-500 text-white">First Name </th>
+        <th class="p-4 border border-gray-800 bg-slate-500 text-white">Last Name </th>
+        <th class="p-4 border border-gray-800 bg-slate-500 text-white">Branch</th>
+        <th class="p-4 border border-gray-800 bg-slate-500 text-white">Year</th>
+        <th class="p-4 border border-gray-800 bg-slate-500 text-white">Subject</th>
+        <th class="p-4 border border-gray-800 bg-slate-500 text-white">Date & time</th>
+     
+       <tr>
+        <td class="p-2 border border-gray-800 text-sm hidden "></td>
+        
+       
+       
+    </tr>
+    <tr id="parent-div" class="inline"></tr>
+
+    </table>
+
+    <span class="mt-2" >
+        <button hx-get="/test/loadNewEntries"
+        hx-trigger="click"
+        hx-target="#append"
+        hx-swap="outerHTML"
+        class="w-10 mx-1 aspect-square  text-white  bg-[url('reload.png')] bg-contain bg-no-repeat border border-black rounded-lg  hover:scale-110 active:bg-cyan-600"></button></span> 
+
+</div>  
+
+
+
+<div hx-get="/test/load"
+hx-trigger="load"
+hx-target="#parent-div"
+hx-swap="outerHTML"
+>
+</div>
+
+
+
+  
+</body>
+</html>
+}

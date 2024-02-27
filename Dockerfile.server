@@ -1,0 +1,32 @@
+FROM ubuntu:24.04
+WORKDIR /base
+RUN  apt-get update -y
+RUN apt-get install wget -y
+RUN wget https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.1/tailwindcss-linux-x64
+RUN wget https://go.dev/dl/go1.22.0.linux-amd64.tar.gz
+RUN apt install nano -y
+RUN apt install make -y
+RUN apt install git -y
+RUN chmod 0777 tailwindcss-linux-x64
+RUN mv ./tailwindcss-linux-x64  /bin/tailwindcss
+RUN chmod 0777 go1.22.0.linux-amd64.tar.gz
+RUN tar -C /usr/local/ -xzf go1.22.0.linux-amd64.tar.gz
+ENV PATH=${PATH}:/usr/local/go/bin
+RUN git clone https://github.com/a-h/templ
+WORKDIR /base/templ
+RUN go mod download
+WORKDIR /base/templ/cmd/templ
+RUN go build -o templ
+RUN mv ./templ /bin/templ
+WORKDIR /base
+COPY . ./iotAP_mini_proc 
+WORKDIR /base/iotAP_mini_proc 
+RUN go mod download
+CMD [ "make" , "run" ]
+
+
+
+
+
+
+
