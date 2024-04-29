@@ -11,6 +11,7 @@ import (
 // \c db_name to connect
 // \d+ table  schema
 func main() {
+	InitEnv();
 	store, err := Newpostgress()
 	if err != nil {
 		fmt.Println(fmt.Errorf("database connection failed").Error())

@@ -21,7 +21,13 @@ type Storage interface {
 
 }
 
-
+func InitEnv(){
+	os.Setenv("DB_HOST","localhost");
+	os.Setenv("DB_PORT","5432");
+	os.Setenv("DB_NAME","postgres");
+	os.Setenv("DB_PASSWORD","root")
+	fmt.Println("ALERT THE DB_HOST IS SET TO localhost")
+}
 
 func Newpostgress() (*Postgress,error){
 	connStr := fmt.Sprintf("host=%s port=%s user=postgres dbname=%s password=%s sslmode=disable",os.Getenv("DB_HOST"),os.Getenv("DB_PORT"),os.Getenv("DB_NAME"),os.Getenv("DB_PASSWORD"))

@@ -54,7 +54,7 @@ type ApiError struct{
 type ApiFunc func (http.ResponseWriter,*http.Request) error
 
 func setLoadReqCookie(w http.ResponseWriter){
-	cook := http.Cookie{Name: "loadRequest",Value: time.Now().UTC().String(),Expires: time.Now().AddDate(0, 0, 1), SameSite: http.SameSiteLaxMode, Domain: "localhost" }
+	cook := http.Cookie{Name: "loadRequest",Value: time.Now().UTC().String(),Expires: time.Now().AddDate(0, 0, 1), SameSite: http.SameSiteLaxMode, Domain: "localhost" ,Secure: false}
 	http.SetCookie(w,&cook)
 }
 func getLoadReqCookie(r *http.Request) (time.Time, error){
@@ -115,7 +115,6 @@ func (s * ApiServer) handleCreateStudent(w http.ResponseWriter, r* http.Request)
 func (s *ApiServer)loadTestPage(w http.ResponseWriter, r* http.Request) error{
 	
 	// WriteJson(w,200,res)
-	// 
 	setLoadReqCookie(w)
 	templ.Hello().Render(r.Context(),w)
 	return nil
@@ -136,7 +135,6 @@ func (s *ApiServer)loadData(w http.ResponseWriter, r* http.Request) error{
 			<td class="p-2 border border-gray-800 text-sm">%s</td>
 			<td class="p-2 border border-gray-800 text-sm">%s</td>
 			<td class="p-2 border border-gray-800 text-sm">%s</td>
-
 		</tr>`,first.RollNo,first.Fname,first.Lname,first.Branch,strconv.Itoa(int(first.Year)),first.Subject,first.CreatedAt.Local().Format(time.RFC850))
 		}
 		w.Write([]byte(all+`<tr id="append" class"hidden"> </tr>`))
@@ -169,10 +167,6 @@ var all string
 	w.Write([]byte(all+`<tr id="append" class"hidden"> </tr>`))
 	return nil
 }
-
-
-
-
 func (s *ApiServer) EspAttendenceRequest(w http.ResponseWriter, r *http.Request) error{
 	if(r.Method=="POST"){
 	    studentid := &requestEsp{}
@@ -253,7 +247,7 @@ func makeHttpHandlefunc(e ApiFunc) http.HandlerFunc {
 }
 
 func  ReadJson[T requestStudentId| requestEsp](r* http.Request,e *T) (error) {
-	if err := json.NewDecoder(r.Body).Decode(e); err!=nil{
+		if err := json.NewDecoder(r.Body).Decode(e); err!=nil{
 		return err
 	}
 	defer r.Body.Close()
